@@ -292,7 +292,7 @@ const TYPES={
  bank:{name:'Bank',sub:'주식 투자',core:1,res:'bank',w:5,d:4,h:4.8,roof:'hip',wall:'#cfd9e6',rc:'#3f5878',band:'#e6b84c'},
  broadcast:{name:'Broadcast Station',sub:'블로그 콘텐츠',core:1,res:'broadcast',w:4,d:4,h:4.2,roof:'flat',wall:'#bfe6e0',rc:'#3a9188',antenna:1},
  gallery:{name:'Gallery',sub:'취미와 전시회',core:1,res:'gallery',w:5,d:5,h:3.2,roof:'hip',rh:3,wall:'#ffffff',rc:'#b9a6e8'},
- concert:{name:'Observatory',sub:'관심 분야 탐구',core:1,res:'concert',w:5,d:5,h:3,roof:'dome',wall:'#f6d3e3',rc:'#d96fa0'},
+ concert:{name:'Observatory',sub:'관심 분야 탐구',core:1,res:'concert',custom:'audeum',w:5,d:5,h:7,wall:'#dfe3e6',rc:'#8e98a3'},
  western:{name:'Bistro',sub:'양식당',kitchen:1,w:4,d:4,h:3.4,roof:'gable',ridge:'perp',rh:1.9,wall:'#f3e3c7',rc:'#b5472f',awning:['#c8402f','#ffffff'],flowers:1,chimney:1,trim:'#fff7e8',dc:'#5b2f22'},
  japanese:{name:'Izakaya',sub:'일식당',kitchen:1,w:4,d:4,h:2.8,roof:'hipr',ridge:'para',rh:1.3,ov:.55,wall:'#6b4a33',rc:'#3d4148',trim:'#d9c7a8',dc:'#2b1d14',noren:'#2d3e6b',lantern:1},
  korean:{name:'Hansik',sub:'한식당',kitchen:1,w:5,d:4,h:2.6,roof:'hipr',ridge:'para',rh:1.4,ov:.75,wall:'#f4efe4',rc:'#4a4f57',trim:'#7a5232',dc:'#7a5232',pillars:'#7a5232'},
@@ -300,6 +300,26 @@ const TYPES={
  peace:{name:'KH Univ',sub:'평화의 전당 · 수업, 학점, 강의 자료, 학교 행사',core:1,res:'school',schoolUI:1,custom:'peace',w:8,d:11,h:10,wall:'#ece4d3',rc:'#6f9c8c'}
 };
 const BUILD_ORDER=['western','japanese','korean','cafe','home','peace','library','pub','boutique','studycafe','bank','broadcast','gallery','concert'];
+/* Audeum-inspired (Kengo Kuma, Seoul): ~20,000 hanging aluminium pipes, glass crown band, pipes lift at the entrance to reveal a glass lobby */
+function audeumFaces(r){const dm=dims(r),b={x:r.x+.3,y:r.y+.3,w:dm.w-.6,d:dm.d-.6},door=r.door,H=7,cx=b.x+b.w/2,cy=b.y+b.d/2,ctr=[cx,cy,H/2],fs=[];
+  const CORE='#b3b9bf',GLASS='#a9c4d0',LOBBY='#d9b98a',AL=['#e6e9ec','#d3d8dc','#c4cad0','#eef0f2'];
+  fs.push(...box(b.x,b.y,0,b.w,b.d,H-.3,CORE,0));
+  for(const s of['px','nx','py','ny']){const L=slen(b,s);
+    fs.push(wq(b,s,.1,L-.1,.08,2.2,s===door?LOBBY:GLASS,1,1,.03));
+    for(let u=.5;u<L-.1;u+=.8)fs.push(wq(b,s,u-.025,u+.025,.08,2.2,'#5d646b',0,1,.045));
+    fs.push(wq(b,s,.05,L-.05,H-1.55,H-.45,GLASS,1,1,.03));
+    for(let u=.42;u<L;u+=.62)fs.push(wq(b,s,u-.025,u+.025,H-1.55,H-.45,'#5d646b',0,1,.045))}
+  const cap=box(b.x-.42,b.y-.42,H-.42,b.w+.84,b.d+.84,.1,'#cfd4d8',4);cap.forEach(f=>{if(f.n[2]<.9)f.L=4});fs.push(...cap);
+  fs.push(...box(b.x-.1,b.y-.1,H-.3,b.w+.2,b.d+.2,.32,'#b9bfc5',3));
+  let k=0;
+  for(const s of['px','nx','py','ny']){const L=slen(b,s);
+    for(const[lay,off,ph]of[[2,.2,0],[3,.36,.075]]){
+      for(let u=-.25+ph;u<L+.3;u+=.15){k++;const h1=hsh(k,7),h2=hsh(k,13),w=.04,dd=Math.abs(u-L/2);
+        let zb=.2+h1*.7;if(s===door&&dd<1.6)zb=Math.max(zb,2.65-dd*dd*.45);
+        const fl=.22+h2*.38+(s===door&&dd<1.6?-.08:0),zt=H-1.62,c=AL[(k*7+(h1*4|0))%4];
+        fs.push(F([sp(b,s,u-w,off,zt),sp(b,s,u+w,off,zt),sp(b,s,u+w,off+fl,zb),sp(b,s,u-w,off+fl,zb)],c,{ctr,layer:lay}));
+        if(h2>.35)fs.push(F([sp(b,s,u-w*.8,off+.04,H+.12),sp(b,s,u+w*.8,off+.04,H+.12),sp(b,s,u+w*.8,off+.04,H-.42),sp(b,s,u-w*.8,off+.04,H-.42)],c,{ctr,layer:lay+2}))}}}
+  return{faces:fs,smoke:[],glow:[],h:H+3}}
 /* Grand Peace Palace (Kyung Hee Univ.): granite gothic hall, twin towers, rose window, lancet windows, pinnacles */
 function peaceFaces(r){const dm=dims(r),b={x:r.x,y:r.y,w:dm.w,d:dm.d},s=r.door,FW=slen(b,s),FD=s[1]==='y'?b.d:b.w;
   const P=(u,v,z)=>sp(b,s,u,-v,z);
@@ -356,7 +376,7 @@ function peaceFaces(r){const dm=dims(r),b={x:r.x,y:r.y,w:dm.w,d:dm.d},s=r.door,F
   return{faces:fs,smoke:[],glow,h:TH+3}}
 function dims(r){const t=TYPES[r.type];return(r.door==='px'||r.door==='nx')?{w:t.d,d:t.w}:{w:t.w,d:t.d}}
 function doorPoint(r,off){const dm=dims(r),b={x:r.x,y:r.y,w:dm.w,d:dm.d};return sp(b,r.door,slen(b,r.door)/2,off==null?1:off,0)}
-function bfaces(r){if(TYPES[r.type].custom==='peace')return peaceFaces(r);const def=TYPES[r.type],dm=dims(r),x=r.x,y=r.y,w=dm.w,d=dm.d,b={x,y,w,d},door=r.door,v=r.v||0;
+function bfaces(r){if(TYPES[r.type].custom==='peace')return peaceFaces(r);if(TYPES[r.type].custom==='audeum')return audeumFaces(r);const def=TYPES[r.type],dm=dims(r),x=r.x,y=r.y,w=dm.w,d=dm.d,b={x,y,w,d},door=r.door,v=r.v||0;
   const wall=def.deco?COT[v%COT.length][0]:def.wall,rc=def.deco?COT[v%COT.length][1]:def.rc,h=def.deco?def.h+(v%3)*.7:def.h,trim=def.trim||'#ffffff';
   const smoke=[],glow=[];let fs=box(x,y,0,w,d,h,wall,0);
   const floors=Math.max(1,Math.floor((h-.5)/1.45));
