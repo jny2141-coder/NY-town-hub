@@ -1,11 +1,11 @@
-# NY Town (Village)
+# NY Town
 
 아이소메트릭 3D 마을 대시보드. 건물마다 생활 영역이 연결돼 있음.
 
 | 건물 | 역할 |
 |---|---|
 | Home | 오늘의 브리핑 |
-| School | 수업·학점·강의 자료 |
+| KH Univ (평화의 전당) | 수업·학점·강의 자료·학교 메일·학교 행사 |
 | Library | CPA 수험 기지 |
 | Workplace | 쏭스터디랩 업무 |
 | Boutique / Pub / Bank / Broadcast / Gallery / Observatory | 쇼핑·영어회화·주식·블로그·취미·관심분야 |
