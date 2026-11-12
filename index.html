@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-<title>Village</title>
+<title>NY town</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
@@ -285,7 +285,6 @@ function ring(c,s,r){const p=[];for(let i=0;i<10;i++){const t=i/10*6.28318,u=r*M
 const COT=[['#e8a87c','#b0503c'],['#f2d388','#8d4a3a'],['#a8c69f','#6d5a4d'],['#c96f53','#59636e'],['#e6b566','#a3472f'],['#b5536c','#59636e'],['#8fb8c9','#8d4a3a'],['#f0e2c0','#b0503c'],['#d98c6a','#6d5a4d']];
 const TYPES={
  home:{name:'Home',sub:'마을의 중심, 오늘의 브리핑',core:1,res:'home',w:5,d:4,h:3.4,roof:'gable',ridge:'para',wall:'#f6dfa8',rc:'#cf5a40',chimney:1},
- school:{name:'School',sub:'수업, 학점, 강의 자료',core:1,res:'school',schoolUI:1,w:6,d:5,h:4.6,roof:'flat',wall:'#f0b9a0',rc:'#b5584a',tower:1},
  library:{name:'Library',sub:'CPA 수험 기지',core:1,res:'library',w:6,d:5,h:4.2,roof:'gable',ridge:'perp',wall:'#ebe5d6',rc:'#4f7d6b',columns:1},
  studycafe:{name:'Workplace',sub:'쏭스터디랩 업무',core:1,res:'cafe',w:5,d:4,h:3.2,roof:'gable',ridge:'perp',wall:'#f4dcb8',rc:'#5f8f5a',awning:['#3f8f6a','#ffffff'],chimney:1},
  boutique:{name:'Boutique',sub:'패션·뷰티 쇼핑',core:1,res:'boutique',shop:1,w:5,d:4,h:3.6,roof:'hipr',ridge:'para',rh:1.5,ov:.35,wall:'#f3dede',rc:'#2f2f36',trim:'#d9b45a',dc:'#2f2f36',awning:['#2f2f36','#ffffff'],flowers:1,band:'#d9b45a'},
@@ -297,12 +296,67 @@ const TYPES={
  western:{name:'Bistro',sub:'양식당',kitchen:1,w:4,d:4,h:3.4,roof:'gable',ridge:'perp',rh:1.9,wall:'#f3e3c7',rc:'#b5472f',awning:['#c8402f','#ffffff'],flowers:1,chimney:1,trim:'#fff7e8',dc:'#5b2f22'},
  japanese:{name:'Izakaya',sub:'일식당',kitchen:1,w:4,d:4,h:2.8,roof:'hipr',ridge:'para',rh:1.3,ov:.55,wall:'#6b4a33',rc:'#3d4148',trim:'#d9c7a8',dc:'#2b1d14',noren:'#2d3e6b',lantern:1},
  korean:{name:'Hansik',sub:'한식당',kitchen:1,w:5,d:4,h:2.6,roof:'hipr',ridge:'para',rh:1.4,ov:.75,wall:'#f4efe4',rc:'#4a4f57',trim:'#7a5232',dc:'#7a5232',pillars:'#7a5232'},
- cafe:{name:'Café',sub:'커피와 디저트',kitchen:1,w:4,d:3,h:3,roof:'gable',ridge:'para',rh:1.4,wall:'#f7d9de',rc:'#7a9ec2',awning:['#e88fa3','#ffffff'],flowers:1,trim:'#ffffff',dc:'#7a9ec2'}
+ cafe:{name:'Café',sub:'커피와 디저트',kitchen:1,w:4,d:3,h:3,roof:'gable',ridge:'para',rh:1.4,wall:'#f7d9de',rc:'#7a9ec2',awning:['#e88fa3','#ffffff'],flowers:1,trim:'#ffffff',dc:'#7a9ec2'},
+ peace:{name:'KH Univ',sub:'평화의 전당 · 수업, 학점, 강의 자료, 학교 행사',core:1,res:'school',schoolUI:1,custom:'peace',w:8,d:11,h:10,wall:'#ece4d3',rc:'#6f9c8c'}
 };
-const BUILD_ORDER=['western','japanese','korean','cafe','home','school','library','pub','boutique','studycafe','bank','broadcast','gallery','concert'];
+const BUILD_ORDER=['western','japanese','korean','cafe','home','peace','library','pub','boutique','studycafe','bank','broadcast','gallery','concert'];
+/* Grand Peace Palace (Kyung Hee Univ.): granite gothic hall, twin towers, rose window, lancet windows, pinnacles */
+function peaceFaces(r){const dm=dims(r),b={x:r.x,y:r.y,w:dm.w,d:dm.d},s=r.door,FW=slen(b,s),FD=s[1]==='y'?b.d:b.w;
+  const P=(u,v,z)=>sp(b,s,u,-v,z);
+  const ST='#ece4d3',ST2='#ddd3bf',ST3='#c8bda6',GL='#4f74a8',ROSE='#7fa6dc',ROSE2='#e0b860',DOOR='#c9683a',CU='#6f9c8c';
+  const fs=[],glow=[];let G=null;
+  const grp=(u,v)=>{const p=P(u,v,0);G=[p[0],p[1]]};
+  const add=f=>{f.g=G;fs.push(f);return f};
+  const lbox=(u0,v0,z0,du,dv,dz,c,L,top)=>{const q=[[u0,v0],[u0+du,v0],[u0+du,v0+dv],[u0,v0+dv]],A=q.map(a=>P(a[0],a[1],z0)),B=q.map(a=>P(a[0],a[1],z0+dz)),o={ctr:P(u0+du/2,v0+dv/2,z0+dz/2),layer:L||0};
+    for(let i=0;i<4;i++){const j=(i+1)%4;add(F([A[i],A[j],B[j],B[i]],c,o))}add(F(B,top||c,{n:[0,0,1],layer:L||0}))};
+  const pin=(u,v,z,rr,h,c,L)=>{const p=P(u,v,0);prism(p[0],p[1],z,rr,rr*.85,h*.35,4,c||ST,L||3,.785).concat(prism(p[0],p[1],z+h*.35,rr*.85,0,h*.65,4,c||ST,(L||3)+1,.785)).forEach(add)};
+  const lgable=(u0,u1,v0,v1,z,h,cw,cr,L,ov)=>{ov=ov||.18;const uc=(u0+u1)/2,o={ctr:P(uc,(v0+v1)/2,z-1),layer:L};
+    add(F([P(u0-ov,v0-ov,z-.06),P(u0-ov,v1+ov,z-.06),P(uc,v1+ov,z+h),P(uc,v0-ov,z+h)],cr,o));add(F([P(u1+ov,v0-ov,z-.06),P(u1+ov,v1+ov,z-.06),P(uc,v1+ov,z+h),P(uc,v0-ov,z+h)],cr,o));
+    const t={ctr:P(uc,(v0+v1)/2,z+h/3),layer:L-1};add(F([P(u0,v0,z),P(u1,v0,z),P(uc,v0,z+h*.94)],cw,t));add(F([P(u0,v1,z),P(u1,v1,z),P(uc,v1,z+h*.94)],cw,t))};
+  const dec=(pl,pts,c,L,em,e)=>{e=e==null?.05:e;const mp=pl.t==='v'?a=>P(a[0],pl.at-pl.in*e,a[1]):a=>P(pl.at-pl.in*e,a[0],a[1]);
+    const a0=pts[0],ctr=pl.t==='v'?P(a0[0],pl.at+pl.in,a0[1]):P(pl.at+pl.in,a0[0],a0[1]);return add(F(pts.map(mp),c,{ctr,layer:L,em:em||0}))};
+  const arch=(ac,hw,z0,zs)=>[[ac-hw,z0],[ac+hw,z0],[ac+hw,zs],[ac+hw*.8,zs+hw*.62],[ac+hw*.45,zs+hw*1.05],[ac,zs+hw*1.35],[ac-hw*.45,zs+hw*1.05],[ac-hw*.8,zs+hw*.62],[ac-hw,zs]];
+  const rect=(a0,a1,z0,z1)=>[[a0,z0],[a1,z0],[a1,z1],[a0,z1]];
+  const tri=(a0,a1,z0,z1)=>[[a0,z0],[a1,z0],[(a0+a1)/2,z1]];
+  const circ=(ac,zc,R,n)=>{const p=[];for(let i=0;i<n;i++){const t=i/n*6.283;p.push([ac+R*Math.cos(t),zc+R*Math.sin(t)])}return p};
+  const TW=2.4,TD=2.6,TH=10.2,CH=6.6,NH=6,uc=FW/2,NV0=TD,NV1=FD-.3;
+  /* nave (behind) */
+  grp(uc,(NV0+NV1)/2);
+  lbox(.7,NV0,0,FW-1.4,NV1-NV0,NH,ST,0);
+  lgable(.7,FW-.7,NV0,NV1,NH,2.7,ST,CU,2,.22);
+  for(const[ua,inn]of[[.7,1],[FW-.7,-1]]){const pl={t:'u',at:ua,in:inn};
+    for(let v=NV0+.9;v<NV1-.5;v+=1.55){dec(pl,arch(v+.78,.27,1.3,3.9),GL,1,1);dec(pl,rect(v+.4,v+1.16,4.6,4.75),ST3,1)}
+    for(let v=NV0+.75;v<NV1;v+=1.55){const bu=ua-inn*.22;lbox(bu-.2,v-.17,0,.4,.34,NH+.25,ST2,1);pin(bu,v,NH+.25,.2,1.3,ST,3)}}
+  {const pl={t:'v',at:NV1,in:-1};dec(pl,arch(uc,.75,1.6,4.6),GL,1,1);dec(pl,circ(uc,7,.4,10),ROSE,1,1)}
+  /* centre front: portal, rose window, gable */
+  grp(uc,1.4);
+  lbox(TW,.3,0,FW-2*TW,TD-.3,CH,ST,0);
+  lgable(TW,FW-TW,.3,TD,CH,1.9,ST,ST2,2,.06);
+  {const pl={t:'v',at:.3,in:1};
+    dec(pl,arch(uc,.62,0,1.75),DOOR,1,0);dec(pl,rect(uc-.02,uc+.02,0,2.5),'#8a4426',2,0,.07);
+    dec(pl,tri(uc-1.05,uc+1.05,2.15,3.55),ST2,2,0,.14);dec(pl,arch(uc,.16,2.45,2.8),GL,3,1,.16);
+    dec(pl,circ(uc,4.85,.9,14),ST3,1);dec(pl,circ(uc,4.85,.76,14),ROSE,2,1,.07);dec(pl,circ(uc,4.85,.42,10),ROSE2,3,1,.09);dec(pl,circ(uc,4.85,.14,8),ST2,4,0,.11);
+    for(let i=-2;i<=2;i++)dec(pl,arch(uc+i*.52,.17,5.95,6.25),GL,1,1);
+    dec(pl,rect(TW,FW-TW,5.78,5.9),ST3,1);dec(pl,arch(uc,.2,7.05,7.4),GL,3,1,.02)}
+  pin(uc,.4,CH+1.75,.17,1.1,ST,4);pin(TW+.15,.4,CH,.15,.9,ST,3);pin(FW-TW-.15,.4,CH,.15,.9,ST,3);
+  /* twin towers */
+  for(const side of[0,1]){const u0=side?FW-TW:0,tc=u0+TW/2;grp(tc,TD/2);
+    lbox(u0,0,0,TW,TD,TH,ST,0);
+    for(const[cu,cv]of[[u0,0],[u0+TW,0],[u0,TD],[u0+TW,TD]]){lbox(cu-.2,cv-.2,0,.4,.4,TH+.15,ST2,1);pin(cu,cv,TH+.15,.21,1.5,ST,4)}
+    lbox(u0-.08,-.08,TH,TW+.16,TD+.16,.32,ST2,2);
+    for(let k=1;k<4;k++){pin(u0+TW*k/4,-.02,TH+.32,.1,.75,ST,3);pin(u0+TW*k/4,TD+.02,TH+.32,.1,.75,ST,3)}
+    const fr={t:'v',at:0,in:1},outer={t:'u',at:side?FW:0,in:side?-1:1},inner={t:'u',at:side?FW-TW:TW,in:side?1:-1};
+    dec(fr,arch(tc,.42,0,1.3),DOOR,1,0);dec(fr,tri(tc-.75,tc+.75,1.7,2.75),ST2,2,0,.12);
+    for(const pl of[fr,outer]){const a0=pl===fr?u0:0,a1=pl===fr?u0+TW:TD,am=(a0+a1)/2;
+      dec(pl,arch(am-.42,.2,3.1,4.6),GL,1,1);dec(pl,arch(am+.42,.2,3.1,4.6),GL,1,1);
+      dec(pl,rect(a0,a1,5.05,5.22),ST3,1);
+      dec(pl,arch(am-.42,.21,5.6,8.3),GL,1,1);dec(pl,arch(am+.42,.21,5.6,8.3),GL,1,1);dec(pl,rect(am-.03,am+.03,5.6,8.9),ST3,2,0,.07);
+      dec(pl,rect(a0,a1,9.35,9.5),ST3,1)}
+    {const pl=inner;dec(pl,arch(TD/2,.2,7.1,8.5),GL,1,1)}}
+  return{faces:fs,smoke:[],glow,h:TH+3}}
 function dims(r){const t=TYPES[r.type];return(r.door==='px'||r.door==='nx')?{w:t.d,d:t.w}:{w:t.w,d:t.d}}
 function doorPoint(r,off){const dm=dims(r),b={x:r.x,y:r.y,w:dm.w,d:dm.d};return sp(b,r.door,slen(b,r.door)/2,off==null?1:off,0)}
-function bfaces(r){const def=TYPES[r.type],dm=dims(r),x=r.x,y=r.y,w=dm.w,d=dm.d,b={x,y,w,d},door=r.door,v=r.v||0;
+function bfaces(r){if(TYPES[r.type].custom==='peace')return peaceFaces(r);const def=TYPES[r.type],dm=dims(r),x=r.x,y=r.y,w=dm.w,d=dm.d,b={x,y,w,d},door=r.door,v=r.v||0;
   const wall=def.deco?COT[v%COT.length][0]:def.wall,rc=def.deco?COT[v%COT.length][1]:def.rc,h=def.deco?def.h+(v%3)*.7:def.h,trim=def.trim||'#ffffff';
   const smoke=[],glow=[];let fs=box(x,y,0,w,d,h,wall,0);
   const floors=Math.max(1,Math.floor((h-.5)/1.45));
@@ -403,7 +457,7 @@ function defaultWorld(){const R=rnd(20261112),T=new Map(),Bs=[],Os=[];
   const isl=t=>27+1.1*Math.sin(3*t+.4)+.7*Math.sin(5*t+1.3);
   for(let x=-31;x<31;x++)for(let y=-31;y<31;y++){const cx=x+.5,cy=y+.5,d=Math.hypot(cx,cy);if(d<isl(Math.atan2(cy,cx))-.4)T.set(tk(x,y),d<5.7?'p':'g')}
   for(let x=-6;x<6;x++)for(let y=17;y<26;y++){const dx=(x+.5)/4.3,dy=(y+.5-21.3)/2.4;if(dx*dx+dy*dy<1)T.set(tk(x,y),'w')}
-  const core=[['home',0,-9.5,'py'],['school',-11,-10,'py'],['library',11,-10,'py'],['pub',-12.5,4.5,'px'],['boutique',-15,11,'px'],['studycafe',12.5,4.5,'nx'],['bank',-6.5,14.5,'ny'],['broadcast',6.5,14.5,'ny'],['gallery',-20,-3,'px'],['concert',20,-3,'nx']];
+  const core=[['home',0,-9.5,'py'],['library',11,-10,'py'],['pub',-12.5,4.5,'px'],['boutique',-15,11,'px'],['studycafe',12.5,4.5,'nx'],['bank',-6.5,14.5,'ny'],['broadcast',6.5,14.5,'ny'],['gallery',-20,-3,'px'],['concert',20,-3,'nx']];
   const rect=r=>{const d=dims(r);return[r.x,r.y,r.x+d.w,r.y+d.d]};
   const hits=(a,m)=>Bs.some(b=>{const q=rect(b);return a[0]<q[2]+m&&a[2]>q[0]-m&&a[1]<q[3]+m&&a[3]>q[1]-m});
   for(const[t,cx,cy,door]of core){const r={id:t,type:t,door,x:0,y:0};const d=dims(r);r.x=Math.round(cx-d.w/2);r.y=Math.round(cy-d.d/2);Bs.push(r)}
@@ -451,7 +505,7 @@ function fillOf(f){if(f.fv!==LV){f.fs=shadeAt(f,NT);f.fv=LV}return f.fs}
 function path(p,ox,oy,oz){ctx.beginPath();for(let i=0;i<p.length;i++){const q=p[i],x=q[0]+ox,y=q[1]+oy,X=sx(x,y),Y=sy(x,y,q[2]+oz);i?ctx.lineTo(X,Y):ctx.moveTo(X,Y)}ctx.closePath()}
 function paintList(L,ox,oy,oz){for(let i=0;i<L.length;i++){const f=L[i];path(f.p,ox,oy,oz);const s=fillOf(f);ctx.fillStyle=s;ctx.fill();ctx.strokeStyle=s;ctx.stroke()}}
 function drawFaces(faces,ox,oy,oz){ox=ox||0;oy=oy||0;oz=oz||0;vis.length=0;
-  for(let i=0;i<faces.length;i++){const f=faces[i],n=f.n;if(!f.ds&&n[0]*VX+n[1]*VY+n[2]*VZ<=.002)continue;f.k=f.L*1000+f.m[0]*VX+f.m[1]*VY+f.m[2]*VZ+f.b;vis.push(f)}
+  for(let i=0;i<faces.length;i++){const f=faces[i],n=f.n;if(!f.ds&&n[0]*VX+n[1]*VY+n[2]*VZ<=.002)continue;f.k=(f.g?(f.g[0]*VX+f.g[1]*VY)*1e5:0)+f.L*1000+f.m[0]*VX+f.m[1]*VY+f.m[2]*VZ+f.b;vis.push(f)}
   vis.sort((a,b)=>a.k-b.k);paintList(vis,ox,oy,oz)}
 function mix(a,b,t){return'rgb('+((a[0]+(b[0]-a[0])*t)|0)+','+((a[1]+(b[1]-a[1])*t)|0)+','+((a[2]+(b[2]-a[2])*t)|0)+')'}
 const stars=[];{const r=rnd(3);for(let i=0;i<70;i++)stars.push([r(),r()*.7,r()*1.4+.4])}
@@ -542,7 +596,7 @@ function nameOf(r){return r.name||TYPES[r.type].name}
 /* ================= persistence ================= */
 const use=n=>(window.claude&&typeof window.claude.use==='function')?window.claude.use(n).catch(()=>null):Promise.resolve(null);
 const cap={sample:use('sample'),mcp:use('mcp'),db:use('db'),user:use('user'),assets:use('assets')};
-let DB=null,loaded=false,seeded=false,readOnly=false,canBuild=true,isOwner=true;
+let migrate=false,DB=null,loaded=false,seeded=false,readOnly=false,canBuild=true,isOwner=true;
 const DIRTY=new Set();let flushing=false,flushT=0;
 function chunkStr(cx,cy){let s='';for(let y=0;y<CS;y++)for(let x=0;x<CS;x++)s+=tget(cx*CS+x,cy*CS+y)||'.';return s}
 function serialize(){const ch={};for(const c of chunks.values()){const s=chunkStr(c.cx,c.cy);if(/[^.]/.test(s))ch[c.cx+'_'+c.cy]=s}return{v:3,buildings:BLDS,objects:OBJS,chunks:ch}}
@@ -565,18 +619,18 @@ async function loadWorld(){
   placePlayer();
   DB=await cap.db;
   if(DB){try{const m=await timeout(DB.doc('world/meta').get(),10000);
-      if(m!=='__t'&&m.exists){const md=m.data()||{};const cs=await timeout(DB.collection('chunks').limit(1000).get(),10000);
+      if(m!=='__t'&&m.exists){const md=m.data()||{};const bl=md.buildings||[];migrate=bl.some(b=>b&&b.type==='school')||!bl.some(b=>b&&b.type==='peace');const cs=await timeout(DB.collection('chunks').limit(1000).get(),10000);
         if(cs!=='__t'){const map={};cs.docs.forEach(d=>{const v=d.data();if(v&&typeof v.t==='string')map[d.id]=v.t});applyWorld({chunks:map,buildings:md.buildings,objects:md.objects});seeded=true;addMissingPub();saveLocal();placePlayer()}}
       else if(m!=='__t'&&!m.exists){const old=await timeout(DB.doc('village/state').get(),6000);if(old&&old!=='__t'&&old.exists){const it=(old.data()||{}).items;if(Array.isArray(it)){for(const d of it)if(d&&PROPS[d.t]&&isFinite(d.x))OBJS.push({id:uid(),t:d.t,x:+d.x,y:+d.y});refreshDerived()}}}}
     catch(e){}}
   const user=await cap.user;if(user){try{isOwner=await user.isOwner();const ce=await user.canEdit();canBuild=isOwner||ce}catch(e){}}
-  loaded=true;$('buildBtn').hidden=!canBuild;
+  loaded=true;$('buildBtn').hidden=!canBuild;if(migrate&&canBuild&&!readOnly&&DB)markDirty(['meta']);
   if(DB)DB.collection('shop').onSnapshot(s=>{shopItems=s.docs.map(d=>Object.assign({id:d.id},d.data()));if(sheetOpen&&curRec&&TYPES[curRec.type].shop&&!$('menuView').hidden&&sv.mode!=='form')renderShop()},()=>{});
   if(DB)DB.collection('dishes').onSnapshot(s=>{dishes=s.docs.map(d=>Object.assign({id:d.id},d.data()));if(sheetOpen&&curRec&&TYPES[curRec.type].kitchen&&mv.mode!=='form')renderMenu()},()=>{});
 }
-const SPOTS={pub:[-12.5,4.5,'px'],boutique:[-15,11,'px']};
+const SPOTS={pub:[-12.5,4.5,'px'],boutique:[-15,11,'px'],peace:[0,-24.5,'py']};
 function addMissingPub(){let ch=false;for(const t in SPOTS){if(BLDS.some(b=>b.type===t))continue;const[cx,cy,door]=SPOTS[t];
-  for(let rr=0;rr<9&&!ch;rr++)for(let a=0;a<Math.max(1,rr*8);a++){const r={id:t,type:t,door,x:0,y:0},d=dims(r),px=cx+rr*Math.cos(a/(rr*8||1)*6.283),py=cy+rr*Math.sin(a/(rr*8||1)*6.283);r.x=Math.round(px-d.w/2);r.y=Math.round(py-d.d/2);if(canPlaceB(r)){BLDS.push(r);ch=true;break}}
+  for(let rr=0;rr<9&&!ch;rr++)for(let a=0;a<Math.max(1,rr*8);a++){const r={id:t,type:t,door,x:0,y:0},d=dims(r),px=cx+rr*Math.cos(a/(rr*8||1)*6.283),py=cy+rr*Math.sin(a/(rr*8||1)*6.283);r.x=Math.round(px-d.w/2);r.y=Math.round(py-d.d/2);if(canPlaceB(r)){BLDS.push(r);const q=footprintOf(r);OBJS=OBJS.filter(o=>!(o.x>q[0]-.3&&o.x<q[2]+.3&&o.y>q[1]-.3&&o.y<q[3]+.3));ch=true;break}}
   ch=false}refreshDerived()}
 function placePlayer(){const h=BLDS.find(b=>b.type==='home');let p=[0,4.5];if(h){const d=doorPoint(h,1.6);p=d}const q=nearestFree(p[0],p[1]);player.x=q[0];player.y=q[1];cam.x=player.x;cam.y=player.y}
 
@@ -585,7 +639,7 @@ const LAND={grass:{name:'잔디',c:'g',col:'#86cf72'},path:{name:'길',c:'p',col
 const build={on:false,tab:'land',tool:'grass',brush:3,ghost:null,hover:null,stroke:null,undo:[],pan:false};
 function thumb(faces){const c=document.createElement('canvas');c.width=116;c.height=100;const g=c.getContext('2d'),S=Math.sin(.72),C=Math.cos(.72),V=[S*KZ,C*KZ,KY],P=q=>[q[0]*C-q[1]*S,(q[0]*S+q[1]*C)*KY-q[2]*KZ];
   let a=1e9,b=-1e9,cc=1e9,d=-1e9;for(const f of faces)for(const q of f.p){const p=P(q);a=Math.min(a,p[0]);b=Math.max(b,p[0]);cc=Math.min(cc,p[1]);d=Math.max(d,p[1])}
-  const s=Math.min(104/(b-a),88/(d-cc)),ox=58-(a+b)/2*s,oy=50-(cc+d)/2*s;const L=faces.filter(f=>f.ds||f.n[0]*V[0]+f.n[1]*V[1]+f.n[2]*V[2]>.002).map(f=>[f.L*1000+f.m[0]*V[0]+f.m[1]*V[1]+f.m[2]*V[2]+f.b,f]).sort((x,y)=>x[0]-y[0]);
+  const s=Math.min(104/(b-a),88/(d-cc)),ox=58-(a+b)/2*s,oy=50-(cc+d)/2*s;const L=faces.filter(f=>f.ds||f.n[0]*V[0]+f.n[1]*V[1]+f.n[2]*V[2]>.002).map(f=>[(f.g?(f.g[0]*V[0]+f.g[1]*V[1])*1e5:0)+f.L*1000+f.m[0]*V[0]+f.m[1]*V[1]+f.m[2]*V[2]+f.b,f]).sort((x,y)=>x[0]-y[0]);
   g.lineJoin='round';g.lineWidth=.6;for(const[,f]of L){g.beginPath();f.p.forEach((q,i)=>{const p=P(q);i?g.lineTo(ox+p[0]*s,oy+p[1]*s):g.moveTo(ox+p[0]*s,oy+p[1]*s)});g.closePath();const col=shadeAt(f,0);g.fillStyle=col;g.strokeStyle=col;g.fill();g.stroke()}return c}
 const thumbs={};
 function thumbFor(kind,k){const key=kind+k;if(thumbs[key])return thumbs[key];let faces;if(kind==='b')faces=bfaces({type:k,x:0,y:0,door:'py',v:3}).faces;else faces=PROPS[k].f(0,0,1);return thumbs[key]=thumb(faces)}
@@ -699,7 +753,7 @@ const TOOLS={
 };
 const RES={
  home:{role:'the house steward who handles daily briefings, schedule and to-dos',tools:['cal_list','cal_create','mail_search','notion_search'],chips:['오늘 브리핑해줘','이번 주 일정 뭐 있어?','캘린더에 일정 추가해줘']},
- school:{role:'the school assistant for the user\'s university life: classes, assignments, grades and lecture materials kept in Google Drive. Check and summarise school email (Kyung Hee addresses end in khu.ac.kr) when asked. Explain course content intuitively with simple examples, summarise lecture files, help plan assignments and exams, and keep the graduation GPA goal in mind',tools:['drive_search','drive_read','cal_list','mail_search','mail_read'],chips:['학교 메일 정리해줘','강의 자료 찾아줘','강의 자료 요약해줘','이번 주 마감 있어?','시험 공부 계획 짜줘']},
+ school:{role:'the school assistant for the user\'s university life: classes, assignments, grades and lecture materials kept in Google Drive. Check and summarise school email (Kyung Hee addresses end in khu.ac.kr) when asked. Explain course content intuitively with simple examples, summarise lecture files, help plan assignments and exams, and keep the graduation GPA goal in mind. This building is the Grand Peace Palace (평화의 전당), Kyung Hee\'s gothic granite concert hall completed in 1999, so also help with campus performances, ceremonies and events and add them to the calendar when asked; never invent event dates',tools:['drive_search','drive_read','cal_list','cal_create','mail_search','mail_read'],chips:['학교 메일 정리해줘','이번 달 학교 행사 있어?','강의 자료 찾아줘','강의 자료 요약해줘','이번 주 마감 있어?','시험 공부 계획 짜줘']},
  library:{role:'the librarian and study mate for the KICPA (Korean CPA) exam: study plans, simple intuitive explanations of accounting and economics, review quizzes',tools:['notion_search','cal_list','cal_create'],chips:['오늘 공부 계획 짜줘','개념 쉽게 설명해줘','퀴즈 내줘']},
  boutique:{role:'the personal shopping assistant at the user\'s fashion & beauty boutique: help decide what to buy and whether it is worth it, compare options the user describes, suggest outfits from what they own and want, explain skincare and makeup basics, and keep spending in view. You cannot browse stores or see live prices: never invent prices, stock or links; ask the user to paste details. Use your tools to read their wishlist, purchases and saved outfits, and to add items to the wishlist when they ask',tools:[],page:'shop',chips:['위시리스트 정리해줘','이번 달 쇼핑 얼마 썼어?','이거 살까 말까 고민돼','가진 옷으로 코디 추천해줘']},
  pub:{role:'the friendly bartender and regulars of a cosy British-style pub, here to help the user practise spoken English for business. Default to chatting in natural, everyday English (keep each turn short, like real conversation, and ask a follow-up question). Run role-plays when asked (small talk, meetings, interviews, networking). After each user message that has mistakes, add one short line starting with "Tip:" that gently corrects the most useful one or offers a more natural phrasing. Teach expressions and run vocabulary quizzes on request. If the user writes in Korean, answer briefly in Korean and nudge them back into English',tools:[],chips:['바에서 스몰토크 하자','비즈니스 미팅 롤플레이','영어 면접 연습','비즈니스 표현 5개 알려줘','영어 단어 퀴즈']},
