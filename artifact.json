@@ -1,0 +1,6 @@
+{
+  "source": "https://claude.ai/artifact/NNrys1ob83a1r4vusxtg3g",
+  "version": "1794443058-3bcc",
+  "contract": "0.2.96",
+  "capabilities": {"assets":{},"db":{"rules":[{"path":"","read":"view","write":"owner"},{"path":"private","read":"owner","write":"owner"}]},"mcp":{"servers":[{"server":"Google Calendar","tools":["list_events","create_event"]},{"server":"Gmail","tools":["search_threads","get_thread","create_draft","send_message"]},{"server":"Google Drive","tools":["search_files","read_file_content"]},{"server":"Notion","tools":["notion-search"]}]},"sample":{"images":true},"user":{}}
+}
